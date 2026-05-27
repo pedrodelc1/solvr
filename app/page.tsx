@@ -766,7 +766,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div style={{ backgroundColor: C.bg }} className="min-h-screen">
+    <div style={{ backgroundColor: C.bg }} className="min-h-screen overflow-x-hidden w-full">
       <Nav />
       <Hero />
       <Beliefs />
