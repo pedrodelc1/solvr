@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+html,
+body {
+  overflow-x: clip;
+}
+
 html {
   scroll-behavior: smooth;
   background-color: #000000;
@@ -17,9 +22,32 @@ body {
   box-sizing: border-box;
 }
 
+/* ─── Wave ácida letra a letra ───────────────────────────────────────────
+   Cada letra de RESOLVEMOS tiene un animation-delay escalonado (--wd).
+   La cresta blanca viaja de izquierda a derecha sobre una base verde ácida.
+   Sin background-clip — funciona en Safari, Chrome y Firefox.            */
+
+@keyframes letter-wave {
+  0%    { color: #7AAA00; }   /* verde visible base */
+  14%   { color: #FFFFFF; }   /* cresta — blanco puro */
+  32%   { color: #CAFF00; }   /* verde ácido brillante */
+  68%   { color: #99BB00; }   /* baja pero sigue verde */
+  100%  { color: #7AAA00; }   /* vuelve al base */
+}
+
+.wave-letter {
+  display: inline;
+  color: #7AAA00;
+  animation: letter-wave 2.4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+  .wave-letter {
+    color: #CAFF00 !important;
+    animation: none !important;
   }
 }
