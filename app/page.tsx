@@ -90,7 +90,7 @@ function WaveWord({ text }: { text: string }) {
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [left, setLeft] = useState<number | null>(null);
+  const [ml, setMl] = useState(0);
   const procesoRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
@@ -105,16 +105,13 @@ function Nav() {
     const rect = el.getBoundingClientRect();
     const procesoCenter = rect.left + rect.width / 2;
     const viewCenter = window.innerWidth / 2;
-    const navEl = el.closest("nav") as HTMLElement;
-    if (!navEl) return;
-    const navRect = navEl.getBoundingClientRect();
-    setLeft(navRect.left + (viewCenter - procesoCenter));
+    setMl(viewCenter - procesoCenter);
   }, []);
 
   return (
     <motion.nav
       className="fixed top-5 z-50"
-      style={left !== null ? { left } : { left: "50%", x: "-50%" }}
+      style={{ left: "50%", x: "-50%", marginLeft: ml }}
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
