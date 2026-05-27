@@ -244,13 +244,13 @@ function Hero() {
               transition={{ duration: 0.8, delay: 1.05, ease: "easeOut" }}
             >
               <a href="#footer"
-                className="text-[14px] font-semibold px-7 py-3 rounded-full transition-colors duration-150 cursor-pointer text-center"
+                className="text-[14px] font-semibold px-7 py-3.5 rounded-full transition-colors duration-150 cursor-pointer text-center w-full sm:w-auto"
                 style={{ backgroundColor: C.accent, color: C.accentFg }}
                 onMouseEnter={e => (e.currentTarget.style.backgroundColor = C.accentDim)}
                 onMouseLeave={e => (e.currentTarget.style.backgroundColor = C.accent)}
               >Hablemos →</a>
               <a href="#servicios"
-                className="text-[14px] font-medium px-7 py-3 rounded-full transition-all duration-150 cursor-pointer text-center"
+                className="text-[14px] font-medium px-7 py-3.5 rounded-full transition-all duration-150 cursor-pointer text-center w-full sm:w-auto"
                 style={{ border: `1px solid ${C.rule}`, color: C.body }}
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLElement).style.color = C.accent;
@@ -264,9 +264,9 @@ function Hero() {
             </motion.div>
           </div>
 
-          {/* ── Right: hero video (GIF-style loop) ─────────── */}
+          {/* ── Right: hero video — desktop only ───────────── */}
           <motion.div
-            className="block shrink-0 w-full lg:w-[380px] xl:w-[420px]"
+            className="hidden lg:block shrink-0 lg:w-[380px] xl:w-[420px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.4, delay: 0.7, ease: "easeOut" }}
@@ -434,7 +434,7 @@ function Servicios() {
         {/* Bento: 01 full width */}
         <SlideIn from="left">
           <div
-            className="grid grid-cols-1 sm:grid-cols-[72px_1fr] sm:gap-8 p-8 sm:p-10 mb-4"
+            className="grid grid-cols-1 sm:grid-cols-[72px_1fr] sm:gap-8 p-5 sm:p-10 mb-4"
             style={{ border: `1px solid ${C.rule}`, backgroundColor: C.paper2 }}
             onMouseEnter={e => (e.currentTarget.style.borderColor = "#333")}
             onMouseLeave={e => (e.currentTarget.style.borderColor = C.rule)}
@@ -472,7 +472,7 @@ function Servicios() {
           {servicios.slice(1).map((s, i) => (
             <SlideIn key={s.num} from={i === 0 ? "left" : "right"} delay={0.06}>
               <div
-                className="p-7 sm:p-8 h-full flex flex-col"
+                className="p-5 sm:p-8 h-full flex flex-col"
                 style={{ border: `1px solid ${C.rule}`, backgroundColor: C.paper2 }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = "#333")}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = C.rule)}
@@ -559,7 +559,7 @@ function Proceso() {
               >
                 <ScaleIn delay={i * 0.1 + 0.06}>
                   <p className="font-black leading-none mb-6"
-                    style={{ color: "#161616", fontWeight: 800, fontSize: "clamp(80px, 12vw, 120px)", letterSpacing: "-0.04em" }}>
+                    style={{ color: "#161616", fontWeight: 800, fontSize: "clamp(56px, 12vw, 120px)", letterSpacing: "-0.04em" }}>
                     {p.num}
                   </p>
                 </ScaleIn>
@@ -604,7 +604,7 @@ function CTABand() {
       className="relative px-5 sm:px-8 py-24 sm:py-32 lg:py-40"
       style={{ borderBottom: `1px solid ${C.rule}`, backgroundColor: C.bg }}
     >
-      <div className="max-w-7xl mx-auto flex flex-col items-start sm:items-center sm:text-center">
+      <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
         <FadeIn>
           <p className="font-mono text-[10px] sm:text-[11px] tracking-[0.18em] uppercase mb-8"
             style={{ color: C.muted }}>
@@ -665,12 +665,12 @@ function Footer() {
         </FadeIn>
 
         <SlideIn from="left">
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4 sm:gap-5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Solvr." className="rounded-[8px]"
-              style={{ height: "clamp(48px, 10vw, 120px)", width: "clamp(48px, 10vw, 120px)" }} />
+            <img src="/logo.png" alt="Solvr." className="rounded-[6px] sm:rounded-[8px]"
+              style={{ height: "clamp(40px, 8vw, 120px)", width: "clamp(40px, 8vw, 120px)" }} />
             <p className="font-black leading-none"
-              style={{ color: C.headline, fontWeight: 800, fontSize: "clamp(64px, 18vw, 220px)", letterSpacing: "-0.055em", lineHeight: 1 }}>
+              style={{ color: C.headline, fontWeight: 800, fontSize: "clamp(56px, 16vw, 220px)", letterSpacing: "-0.055em", lineHeight: 1 }}>
               Solvr.
             </p>
           </div>
