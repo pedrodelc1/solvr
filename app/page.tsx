@@ -111,9 +111,9 @@ function Nav() {
           backgroundColor: scrolled ? "rgba(0,0,0,0.90)" : "rgba(0,0,0,0.48)",
         }}
       >
-        <a href="#hero" className="text-[14px] shrink-0"
-          style={{ color: C.headline, fontWeight: 800, letterSpacing: "-0.03em" }}>
-          Solvr.
+        <a href="#hero" className="shrink-0 flex items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="Solvr." className="h-7 w-7 rounded-[5px]" />
         </a>
         <div className="hidden sm:flex items-center gap-5">
           {[["Servicios","#servicios"],["Proceso","#proceso"],["Contacto","#footer"]].map(([l,h]) => (
@@ -665,10 +665,15 @@ function Footer() {
         </FadeIn>
 
         <SlideIn from="left">
-          <p className="font-black leading-none"
-            style={{ color: C.headline, fontWeight: 800, fontSize: "clamp(64px, 18vw, 220px)", letterSpacing: "-0.055em", lineHeight: 1 }}>
-            Solvr.
-          </p>
+          <div className="flex items-center gap-5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="Solvr." className="rounded-[8px]"
+              style={{ height: "clamp(48px, 10vw, 120px)", width: "clamp(48px, 10vw, 120px)" }} />
+            <p className="font-black leading-none"
+              style={{ color: C.headline, fontWeight: 800, fontSize: "clamp(64px, 18vw, 220px)", letterSpacing: "-0.055em", lineHeight: 1 }}>
+              Solvr.
+            </p>
+          </div>
         </SlideIn>
 
         <FadeIn delay={0.08}>
