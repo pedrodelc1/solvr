@@ -97,8 +97,8 @@ function Nav() {
   }, []);
 
   return (
-    <div className="fixed top-5 z-50" style={{ left: "50%", transform: "translateX(-50%) translateX(20px)" }}>
     <motion.nav
+      className="fixed top-5 inset-x-0 z-50 flex justify-center"
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
@@ -133,7 +133,6 @@ function Nav() {
         >Hablemos</a>
       </div>
     </motion.nav>
-    </div>
   );
 }
 
@@ -623,7 +622,7 @@ function CTABand() {
           </p>
         </FadeIn>
         <FadeIn delay={0.28}>
-          <a href="mailto:hola@solvr.com"
+          <a href="mailto:solvrddss@gmail.com"
             className="inline-block text-[14px] sm:text-[15px] font-semibold px-9 py-4 rounded-full transition-colors duration-150 cursor-pointer"
             style={{ backgroundColor: C.accent, color: C.accentFg }}
             onMouseEnter={e => (e.currentTarget.style.backgroundColor = C.accentDim)}
@@ -640,7 +639,7 @@ function CTABand() {
 const footerCols = [
   {
     label: "Contacto",
-    items: [{ text: "hola@solvr.com", href: "mailto:hola@solvr.com" }, { text: "+54 341 6001057", href: "tel:+543416001057" }]
+    items: [{ text: "solvrddss@gmail.com", href: "mailto:solvrddss@gmail.com" }, { text: "+54 341 6001057", href: "tel:+543416001057" }, { text: "WhatsApp →", href: "https://wa.me/543416001057" }]
   },
   {
     label: "Redes",
@@ -652,7 +651,7 @@ const footerCols = [
   },
   {
     label: "Brief",
-    items: [{ text: "Iniciar un brief →", href: "solvrddss@gmail.com" }, { text: "Respuesta en 5h", href: null }]
+    items: [{ text: "Iniciar un brief →", href: "mailto:solvrddss@gmail.com" }, { text: "Respuesta en 5hs", href: null }]
   },
 ];
 
