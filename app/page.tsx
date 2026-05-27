@@ -90,16 +90,31 @@ function WaveWord({ text }: { text: string }) {
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [left, setLeft] = useState<number | null>(null);
+  const procesoRef = useRef<HTMLAnchorElement>(null);
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  useEffect(() => {
+    const el = procesoRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const procesoCenter = rect.left + rect.width / 2;
+    const viewCenter = window.innerWidth / 2;
+    const navEl = el.closest("nav") as HTMLElement;
+    if (!navEl) return;
+    const navRect = navEl.getBoundingClientRect();
+    setLeft(navRect.left + (viewCenter - procesoCenter));
+  }, []);
+
   return (
     <motion.nav
       className="fixed top-5 z-50"
-      style={{ left: "50%", x: "-40%" }}
+      style={left !== null ? { left } : { left: "50%", x: "-50%" }}
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
@@ -119,6 +134,7 @@ function Nav() {
         <div className="hidden sm:flex items-center">
           {[["Servicios", "#servicios"], ["Proceso", "#proceso"], ["Contacto", "#footer"]].map(([l, h]) => (
             <a key={l} href={h}
+              ref={l === "Proceso" ? procesoRef : undefined}
               className="text-[12px] transition-colors duration-150 whitespace-nowrap px-3 py-1.5"
               style={{ color: C.muted }}
               onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
