@@ -100,6 +100,7 @@ function Nav() {
   }, []);
 
   useEffect(() => {
+    if (window.innerWidth < 640) return; // links hidden on mobile, skip
     const el = procesoRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
