@@ -106,6 +106,7 @@ function Nav() {
       <div
         className="flex items-center gap-1 px-3 h-11 rounded-full transition-all duration-300 w-max"
         style={{
+          marginLeft: "30px",
           border: `1px solid ${C.rule}`,
           backdropFilter: "blur(18px)",
           backgroundColor: scrolled ? "rgba(0,0,0,0.90)" : "rgba(0,0,0,0.48)",
