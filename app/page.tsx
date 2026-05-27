@@ -759,6 +759,11 @@ function Footer() {
 // ── Página ────────────────────────────────────────────────────────────────
 
 export default function Home() {
+  useEffect(() => {
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div style={{ backgroundColor: C.bg }} className="min-h-screen">
       <Nav />
