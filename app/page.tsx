@@ -97,8 +97,8 @@ function Nav() {
   }, []);
 
   return (
+    <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50">
     <motion.nav
-      className="fixed top-5 left-1/2 -translate-x-1/2 z-50"
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
@@ -116,7 +116,7 @@ function Nav() {
           Solvr.
         </a>
         <div className="hidden sm:flex items-center">
-          {[["Servicios","#servicios"],["Proceso","#proceso"],["Contacto","#footer"]].map(([l,h]) => (
+          {[["Servicios", "#servicios"], ["Proceso", "#proceso"], ["Contacto", "#footer"]].map(([l, h]) => (
             <a key={l} href={h}
               className="text-[12px] transition-colors duration-150 whitespace-nowrap px-3 py-1.5"
               style={{ color: C.muted }}
@@ -133,6 +133,7 @@ function Nav() {
         >Hablemos</a>
       </div>
     </motion.nav>
+    </div>
   );
 }
 
@@ -651,7 +652,7 @@ const footerCols = [
   },
   {
     label: "Brief",
-    items: [{ text: "Iniciar un brief →", href: "solvrddss@gmail.com" }, { text: "Respuesta en 48h", href: null }]
+    items: [{ text: "Iniciar un brief →", href: "solvrddss@gmail.com" }, { text: "Respuesta en 5h", href: null }]
   },
 ];
 
