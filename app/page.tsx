@@ -98,7 +98,7 @@ function Nav() {
 
   return (
     <motion.nav
-      className="fixed top-5 inset-x-0 z-50 flex justify-center"
+      className="fixed top-5 left-1/2 -translate-x-1/2 z-50"
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
