@@ -13,14 +13,14 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 
 // ── Tokens ────────────────────────────────────────────────────────────────
 const C = {
-  bg:       "#000000",
-  paper2:   "#080808",
+  bg: "#000000",
+  paper2: "#080808",
   headline: "#CCCCCC",
-  body:     "#888888",
-  muted:    "#444444",
-  rule:     "#1A1A1A",
-  accent:   "#CAFF00",
-  accentDim:"#88BB00",
+  body: "#888888",
+  muted: "#444444",
+  rule: "#1A1A1A",
+  accent: "#CAFF00",
+  accentDim: "#88BB00",
   accentFg: "#000000",
 } as const;
 
@@ -104,20 +104,18 @@ function Nav() {
       transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
     >
       <div
-        className="grid grid-cols-[1fr_auto_1fr] items-center px-2 h-11 rounded-full transition-all duration-300"
+        className="flex items-center gap-1 px-3 h-11 rounded-full transition-all duration-300 w-max mx-auto"
         style={{
           border: `1px solid ${C.rule}`,
           backdropFilter: "blur(18px)",
           backgroundColor: scrolled ? "rgba(0,0,0,0.90)" : "rgba(0,0,0,0.48)",
         }}
       >
-        {/* Left: logo */}
-        <a href="#hero" className="text-[14px] shrink-0 px-2"
-          style={{ color: C.headline, fontWeight: 800, letterSpacing: "-0.03em" }}>
+        <a href="#hero" className="text-[13px] font-bold px-3 shrink-0"
+          style={{ color: C.headline, letterSpacing: "-0.03em" }}>
           Solvr.
         </a>
-        {/* Center: links */}
-        <div className="hidden sm:flex items-center gap-1">
+        <div className="hidden sm:flex items-center">
           {[["Servicios","#servicios"],["Proceso","#proceso"],["Contacto","#footer"]].map(([l,h]) => (
             <a key={l} href={h}
               className="text-[12px] transition-colors duration-150 whitespace-nowrap px-3 py-1.5"
@@ -127,15 +125,12 @@ function Nav() {
             >{l}</a>
           ))}
         </div>
-        {/* Right: CTA — pushed to the right edge */}
-        <div className="flex justify-end px-2">
-          <a href="#footer"
-            className="text-[12px] font-semibold px-4 py-1.5 rounded-full transition-all duration-150 cursor-pointer whitespace-nowrap"
-            style={{ backgroundColor: C.accent, color: C.accentFg }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = C.accentDim)}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = C.accent)}
-          >Hablemos</a>
-        </div>
+        <a href="#footer"
+          className="text-[12px] font-semibold px-4 py-1.5 ml-1 rounded-full transition-all duration-150 cursor-pointer whitespace-nowrap shrink-0"
+          style={{ backgroundColor: C.accent, color: C.accentFg }}
+          onMouseEnter={e => (e.currentTarget.style.backgroundColor = C.accentDim)}
+          onMouseLeave={e => (e.currentTarget.style.backgroundColor = C.accent)}
+        >Hablemos</a>
       </div>
     </motion.nav>
   );
@@ -175,7 +170,7 @@ function Hero() {
               transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
             >
               <span style={{ color: C.accent }}>◆</span>
-              {" "}Estudio de Soluciones Digitales&nbsp;&nbsp;/&nbsp;&nbsp;BCN · NYC&nbsp;&nbsp;/&nbsp;&nbsp;EST. 2017
+              {" "}Estudio de Soluciones Digitales&nbsp;&nbsp;/&nbsp;&nbsp;ROS - ARG&nbsp;&nbsp;/&nbsp;&nbsp;EST. 2026
             </motion.p>
 
             {/* Headline */}
@@ -189,7 +184,7 @@ function Hero() {
               }}
             >
               <span className="block overflow-hidden">
-                {["NO","VENDEMOS"].map((w, i) => (
+                {["NO", "VENDEMOS"].map((w, i) => (
                   <motion.span key={w}
                     className="inline-block mr-[0.2em]"
                     style={{ color: C.headline }}
@@ -354,7 +349,7 @@ function Beliefs() {
                     el.style.borderRight = (window.innerWidth >= 768 && i === 0)
                       ? `1px solid ${C.rule}` : "none";
                     el.style.paddingRight = (window.innerWidth >= 768 && i === 0) ? "3rem" : "0";
-                    el.style.paddingLeft  = (window.innerWidth >= 768 && i === 1) ? "3rem" : "0";
+                    el.style.paddingLeft = (window.innerWidth >= 768 && i === 1) ? "3rem" : "0";
                   };
                   apply();
                   window.addEventListener("resize", apply);
@@ -388,19 +383,19 @@ const servicios = [
     num: "01",
     title: "IA & Automatización",
     desc: "Construimos sistemas inteligentes que funcionan — no demos que impresionan, sino agentes que producen.",
-    caps: ["Agentes LLM personalizados","Automatización de flujos","RAG & recuperación","Copilotos internos","Modelos fine-tuneados"],
+    caps: ["Agentes LLM personalizados", "Automatización de flujos", "RAG & recuperación", "Copilotos internos", "Modelos fine-tuneados"],
   },
   {
     num: "02",
     title: "Desarrollo de Software",
     desc: "De cero a producción. Full-stack, rápido, limpio. Sin bloat, sin necesidad de guía constante.",
-    caps: ["Apps web y móvil","Diseño de APIs","Dashboards internos","Pipelines de datos","Modernización de sistemas"],
+    caps: ["Apps web y móvil", "Diseño de APIs", "Dashboards internos", "Pipelines de datos", "Modernización de sistemas"],
   },
   {
     num: "03",
     title: "Estrategia Digital",
     desc: "La respuesta correcta antes de construir lo equivocado. Pensamos antes de codear.",
-    caps: ["Descubrimiento del problema","Arquitectura de soluciones","Build vs. buy","Roadmapping","Due diligence técnico"],
+    caps: ["Descubrimiento del problema", "Arquitectura de soluciones", "Build vs. buy", "Roadmapping", "Due diligence técnico"],
   },
 ];
 
@@ -515,9 +510,9 @@ function Servicios() {
 // ── Proceso ───────────────────────────────────────────────────────────────
 
 const pasos = [
-  { num: "01", title: "Escuchamos.",   tag: "Descubrimiento", desc: "Antes de escribir una sola línea de código, entendemos el problema real — no el que figura en el brief." },
-  { num: "02", title: "Construimos.",  tag: "Ingeniería",     desc: "Ciclos cortos, comunicación directa, entregables reales cada semana. Sin overhead, sin teatro." },
-  { num: "03", title: "Entregamos.",   tag: "Handover",       desc: "Código limpio, documentación completa y una entrega que funciona de verdad. Es tuyo completamente." },
+  { num: "01", title: "Escuchamos.", tag: "Descubrimiento", desc: "Antes de escribir una sola línea de código, entendemos el problema real — no el que figura en el brief." },
+  { num: "02", title: "Construimos.", tag: "Ingeniería", desc: "Ciclos cortos, comunicación directa, entregables reales cada semana. Sin overhead, sin teatro." },
+  { num: "03", title: "Entregamos.", tag: "Handover", desc: "Código limpio, documentación completa y una entrega que funciona de verdad. Es tuyo completamente." },
 ];
 
 function Proceso() {
@@ -552,8 +547,8 @@ function Proceso() {
                   const apply = () => {
                     const md = window.innerWidth >= 768;
                     el.style.borderBottom = (!md && i < 2) ? `1px solid ${C.rule}` : "none";
-                    el.style.borderRight  = (md && i < 2)  ? `1px solid ${C.rule}` : "none";
-                    el.style.paddingLeft  = (md && i > 0)  ? "2.5rem" : "0";
+                    el.style.borderRight = (md && i < 2) ? `1px solid ${C.rule}` : "none";
+                    el.style.paddingLeft = (md && i > 0) ? "2.5rem" : "0";
                     el.style.paddingRight = md ? "2.5rem" : "0";
                   };
                   apply();
@@ -585,7 +580,7 @@ function Proceso() {
         <FadeIn delay={0.2}>
           <div className="py-5 mt-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-0"
             style={{ borderTop: `1px solid ${C.rule}` }}>
-            {["Duración promedio — 6 a 14 semanas","Alcance fijo","Un solo punto de contacto"].map((item, i) => (
+            {["Duración promedio — 6 a 14 semanas", "Alcance fijo", "Un solo punto de contacto"].map((item, i) => (
               <p key={i} className="font-mono text-[10px] sm:text-[11px] tracking-[0.12em] uppercase sm:flex-1"
                 style={{ color: C.muted }}>
                 {i > 0 && <span className="hidden sm:inline mr-4" style={{ color: "#222" }}>—</span>}
@@ -642,14 +637,22 @@ function CTABand() {
 // ── Footer — Ft5 statement ────────────────────────────────────────────────
 
 const footerCols = [
-  { label: "Contacto",
-    items: [{ text: "hola@solvr.com", href: "mailto:hola@solvr.com" }, { text: "+1 (212) 555-0180", href: "tel:+12125550180" }] },
-  { label: "Redes",
-    items: [{ text: "LinkedIn →", href: "#" }, { text: "Are.na →", href: "#" }] },
-  { label: "Estudio",
-    items: [{ text: "Barcelona / New York", href: null }, { text: "Lun–Vie  9–18 CET", href: null }] },
-  { label: "Brief",
-    items: [{ text: "Iniciar un brief →", href: "mailto:hola@solvr.com" }, { text: "Respuesta en 48h", href: null }] },
+  {
+    label: "Contacto",
+    items: [{ text: "hola@solvr.com", href: "mailto:hola@solvr.com" }, { text: "+54 341 6001057", href: "tel:+543416001057" }]
+  },
+  {
+    label: "Redes",
+    items: [{ text: "LinkedIn →", href: "#" }, { text: "Are.na →", href: "#" }]
+  },
+  {
+    label: "Estudio",
+    items: [{ text: "Rosario / Argentina", href: null }, { text: "Lun–Vie  9–18 CET", href: null }]
+  },
+  {
+    label: "Brief",
+    items: [{ text: "Iniciar un brief →", href: "solvrddss@gmail.com" }, { text: "Respuesta en 48h", href: null }]
+  },
 ];
 
 function Footer() {
@@ -684,14 +687,14 @@ function Footer() {
                     const apply = () => {
                       const md = window.innerWidth >= 768;
                       if (md) {
-                        el.style.borderRight  = i < 3 ? `1px solid ${C.rule}` : "none";
-                        el.style.paddingLeft  = i > 0 ? "2rem" : "0";
+                        el.style.borderRight = i < 3 ? `1px solid ${C.rule}` : "none";
+                        el.style.paddingLeft = i > 0 ? "2rem" : "0";
                         el.style.paddingRight = i < 3 ? "2rem" : "0";
                         el.style.borderBottom = "none";
                       } else {
-                        el.style.borderRight  = (i % 2 === 0) ? `1px solid ${C.rule}` : "none";
+                        el.style.borderRight = (i % 2 === 0) ? `1px solid ${C.rule}` : "none";
                         el.style.borderBottom = i < 2 ? `1px solid ${C.rule}` : "none";
-                        el.style.paddingLeft  = (i % 2 === 1) ? "1.25rem" : "0";
+                        el.style.paddingLeft = (i % 2 === 1) ? "1.25rem" : "0";
                         el.style.paddingRight = (i % 2 === 0) ? "1.25rem" : "0";
                       }
                     };
@@ -708,11 +711,11 @@ function Footer() {
                       <li key={item.text}>
                         {item.href
                           ? <a href={item.href}
-                              className="text-[13px] sm:text-[14px] transition-colors duration-150 cursor-pointer"
-                              style={{ color: C.body }}
-                              onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
-                              onMouseLeave={e => (e.currentTarget.style.color = C.body)}
-                            >{item.text}</a>
+                            className="text-[13px] sm:text-[14px] transition-colors duration-150 cursor-pointer"
+                            style={{ color: C.body }}
+                            onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
+                            onMouseLeave={e => (e.currentTarget.style.color = C.body)}
+                          >{item.text}</a>
                           : <span className="text-[13px] sm:text-[14px]" style={{ color: C.body }}>{item.text}</span>
                         }
                       </li>
