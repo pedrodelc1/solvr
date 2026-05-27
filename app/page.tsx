@@ -97,7 +97,7 @@ function Nav() {
   }, []);
 
   return (
-    <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50">
+    <div className="fixed top-5 z-50" style={{ left: "50%", transform: "translateX(-50%) translateX(20px)" }}>
     <motion.nav
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
