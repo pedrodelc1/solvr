@@ -104,33 +104,38 @@ function Nav() {
       transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
     >
       <div
-        className="flex items-center gap-1 px-2 h-11 rounded-full transition-all duration-300"
+        className="grid grid-cols-[1fr_auto_1fr] items-center px-2 h-11 rounded-full transition-all duration-300"
         style={{
           border: `1px solid ${C.rule}`,
           backdropFilter: "blur(18px)",
           backgroundColor: scrolled ? "rgba(0,0,0,0.90)" : "rgba(0,0,0,0.48)",
         }}
       >
-        <a href="#hero" className="text-[14px] shrink-0 px-3"
+        {/* Left: logo */}
+        <a href="#hero" className="text-[14px] shrink-0 px-2"
           style={{ color: C.headline, fontWeight: 800, letterSpacing: "-0.03em" }}>
           Solvr.
         </a>
+        {/* Center: links */}
         <div className="hidden sm:flex items-center gap-1">
           {[["Servicios","#servicios"],["Proceso","#proceso"],["Contacto","#footer"]].map(([l,h]) => (
             <a key={l} href={h}
-              className="text-[12px] transition-colors duration-150 whitespace-nowrap px-3 py-1.5 rounded-full"
+              className="text-[12px] transition-colors duration-150 whitespace-nowrap px-3 py-1.5"
               style={{ color: C.muted }}
               onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
               onMouseLeave={e => (e.currentTarget.style.color = C.muted)}
             >{l}</a>
           ))}
         </div>
-        <a href="#footer"
-          className="text-[12px] font-semibold px-4 py-1.5 rounded-full transition-all duration-150 cursor-pointer whitespace-nowrap shrink-0 ml-1"
-          style={{ backgroundColor: C.accent, color: C.accentFg }}
-          onMouseEnter={e => (e.currentTarget.style.backgroundColor = C.accentDim)}
-          onMouseLeave={e => (e.currentTarget.style.backgroundColor = C.accent)}
-        >Hablemos</a>
+        {/* Right: CTA — pushed to the right edge */}
+        <div className="flex justify-end px-2">
+          <a href="#footer"
+            className="text-[12px] font-semibold px-4 py-1.5 rounded-full transition-all duration-150 cursor-pointer whitespace-nowrap"
+            style={{ backgroundColor: C.accent, color: C.accentFg }}
+            onMouseEnter={e => (e.currentTarget.style.backgroundColor = C.accentDim)}
+            onMouseLeave={e => (e.currentTarget.style.backgroundColor = C.accent)}
+          >Hablemos</a>
+        </div>
       </div>
     </motion.nav>
   );
