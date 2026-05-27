@@ -98,13 +98,13 @@ function Nav() {
 
   return (
     <motion.nav
-      className="fixed top-5 left-0 right-0 z-50 flex justify-center px-5"
+      className="fixed top-5 inset-x-0 z-50 flex justify-center"
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
     >
       <div
-        className="flex items-center gap-1 px-3 h-11 rounded-full transition-all duration-300 w-max mx-auto"
+        className="flex items-center gap-1 px-3 h-11 rounded-full transition-all duration-300 w-max"
         style={{
           border: `1px solid ${C.rule}`,
           backdropFilter: "blur(18px)",
