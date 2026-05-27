@@ -266,8 +266,7 @@ function Hero() {
 
           {/* ── Right: hero video (GIF-style loop) ─────────── */}
           <motion.div
-            className="hidden lg:block shrink-0"
-            style={{ width: "clamp(280px, 30vw, 420px)" }}
+            className="block shrink-0 w-full lg:w-[380px] xl:w-[420px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.4, delay: 0.7, ease: "easeOut" }}
