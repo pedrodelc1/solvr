@@ -127,7 +127,7 @@ function Nav() {
       >
         <a href="#hero" className="text-[13px] font-bold px-3 shrink-0"
           style={{ color: C.headline, letterSpacing: "-0.03em" }}>
-          Solvr.
+          Solvnt.
         </a>
         <div className="hidden sm:flex items-center">
           {[["Servicios", "#servicios"], ["Proceso", "#proceso"], ["Contacto", "#footer"]].map(([l, h]) => (
@@ -688,7 +688,7 @@ function Footer() {
         <SlideIn from="left">
           <p className="font-black leading-none"
             style={{ color: C.headline, fontWeight: 800, fontSize: "clamp(56px, 16vw, 220px)", letterSpacing: "-0.055em", lineHeight: 1 }}>
-            Solvr.
+            Solvnt.
           </p>
         </SlideIn>
 
@@ -745,7 +745,7 @@ function Footer() {
         <FadeIn delay={0.12}>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 pt-5">
             <p className="font-mono text-[10px] sm:text-[11px] tracking-[0.1em]" style={{ color: C.muted }}>
-              © 2026 Solvr Studio S.L. / Todos los derechos reservados.
+              © 2026 Solvnt Studio S.L. / Todos los derechos reservados.
             </p>
             <p className="font-mono text-[10px] sm:text-[11px] tracking-[0.1em]" style={{ color: C.muted }}>
               Hecho en casa.

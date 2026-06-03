@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Solvr — Digital Solutions Studio",
+  title: "Solvnt — Digital Solutions Studio",
   description: "We identify the real problem in your business and build the exact solution — AI, software, or whatever it takes.",
 };
 
