@@ -9,7 +9,7 @@
  */
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 // ── Tokens ────────────────────────────────────────────────────────────────
 const C = {
@@ -156,46 +156,125 @@ function Nav() {
 //   evita que framer-motion will-change:transform rompa background-clip en Safari.
 
 function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
-  const opacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+  const doneRef = useRef(false);
+  const progressRef = useRef(0);
+
+  useEffect(() => {
+    // Lock page scroll — wheel/touch/keyboard advance the animation instead
+    document.documentElement.style.overflowY = "hidden";
+    document.body.style.overflowY = "hidden";
+
+    // On small screens (no canvas shown) skip the lock entirely
+    if (window.innerWidth < 1280) {
+      document.documentElement.style.overflowY = "";
+      document.body.style.overflowY = "";
+      return;
+    }
+
+    const TRAVEL = 3800; // total wheel-px to complete all frames
+
+    function advance(delta: number) {
+      if (doneRef.current || delta <= 0) return;
+      progressRef.current = Math.min(1, progressRef.current + delta / TRAVEL);
+      window.dispatchEvent(new CustomEvent("hero:scrub", { detail: progressRef.current }));
+      if (progressRef.current >= 1) {
+        doneRef.current = true;
+        document.documentElement.style.overflowY = "";
+        document.body.style.overflowY = "";
+      }
+    }
+
+    const onWheel = (e: WheelEvent) => {
+      if (doneRef.current) return;
+      e.preventDefault();
+      const px = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaY;
+      advance(px);
+    };
+    let ty = 0;
+    const onTouchStart = (e: TouchEvent) => { ty = e.touches[0].clientY; };
+    const onTouchMove = (e: TouchEvent) => {
+      if (doneRef.current) return;
+      e.preventDefault();
+      const dy = ty - e.touches[0].clientY;
+      ty = e.touches[0].clientY;
+      advance(dy * 2.5);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (doneRef.current) return;
+      if (["ArrowDown", "ArrowRight", "PageDown", " "].includes(e.key)) {
+        e.preventDefault(); advance(80);
+      }
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.documentElement.style.overflowY = "";
+      document.body.style.overflowY = "";
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, []);
 
   return (
     <section
       id="hero"
-      ref={sectionRef}
-      className="relative min-h-[100svh] flex flex-col justify-between px-5 sm:px-8 pt-24 sm:pt-28 pb-8 overflow-hidden"
-      style={{ borderBottom: `1px solid ${C.rule}`, backgroundColor: C.bg }}
+      style={{ height: "100vh", backgroundColor: C.bg }}
     >
-      <motion.div
-        className="max-w-7xl mx-auto w-full flex flex-col flex-1 justify-center py-10"
-        style={{ opacity }}
+      {/* Fixed hero — always behind sections */}
+      <div
+        className="fixed inset-0 flex flex-col overflow-hidden"
+        style={{ backgroundColor: C.bg }}
       >
-        {/* Two-column grid: text left, video right */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 lg:gap-16 items-center">
 
-          {/* ── Left: text content ─────────────────────────── */}
-          <div className="min-w-0">
-            {/* Meta strip */}
+        {/* Full-bleed canvas — animation as backdrop, text overlaid */}
+        <div className="flex-1 relative min-h-0 overflow-hidden">
+
+          {/* Canvas fills the entire hero — desktop only */}
+          <div className="absolute inset-y-0 left-[28%] right-0 opacity-0 xl:opacity-100 transition-opacity duration-700">
+            <motion.div
+              className="absolute inset-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4, delay: 0.4, ease: "easeOut" }}
+            >
+              <ScrollCanvas totalFrames={150} />
+            </motion.div>
+          </div>
+
+          {/* Gradient veil — solid black left → transparent right, ensures text legibility */}
+          <div
+            className="absolute inset-0 opacity-0 xl:opacity-100 transition-opacity duration-700 pointer-events-none"
+            style={{
+              background: `linear-gradient(to right, ${C.bg} 0%, ${C.bg} 15%, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.55) 52%, rgba(0,0,0,0.1) 70%, transparent 85%)`,
+            }}
+          />
+
+          {/* Text — floats over the left half */}
+          <div className="relative z-10 flex flex-col justify-center h-full min-w-0 overflow-hidden px-5 sm:px-8 lg:pl-14 lg:pr-8 pt-24 sm:pt-28 lg:pt-6 pb-6 w-full lg:max-w-[54%]">
+
             <motion.p
-              className="font-mono text-[10px] sm:text-[11px] tracking-[0.16em] uppercase mb-10 sm:mb-12"
+              className="font-mono text-[10px] sm:text-[11px] tracking-[0.16em] uppercase mb-9 sm:mb-11"
               style={{ color: C.muted }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
             >
               <span style={{ color: C.accent }}>◆</span>
-              {" "}Estudio de Soluciones Digitales&nbsp;&nbsp;/&nbsp;&nbsp;ROS - ARG&nbsp;&nbsp;/&nbsp;&nbsp;EST. 2026
+              {" "}Estudio de Soluciones Digitales&nbsp;&nbsp;/&nbsp;&nbsp;ROS · ARG&nbsp;&nbsp;/&nbsp;&nbsp;EST. 2026
             </motion.p>
 
-            {/* Headline */}
             <h1
-              className="mb-9 sm:mb-10"
+              className="mb-8 sm:mb-9"
               style={{
                 fontWeight: 800,
                 letterSpacing: "-0.045em",
                 lineHeight: 0.91,
-                fontSize: "clamp(42px, 10.5vw, 112px)",
+                fontSize: "clamp(40px, 5.2vw, 82px)",
               }}
             >
               <span className="block overflow-hidden">
@@ -220,13 +299,13 @@ function Hero() {
               </span>
               <span className="block overflow-hidden">
                 <motion.span
-                  className="inline-block mr-[0.2em]"
+                  className="inline-block"
                   initial={{ y: "105%", opacity: 0 }}
                   animate={{ y: "0%", opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.55, ease: "easeOut" }}
-                >
-                  <WaveWord text="RESOLVEMOS" />
-                </motion.span>
+                ><WaveWord text="RESOLVEMOS" /></motion.span>
+              </span>
+              <span className="block overflow-hidden">
                 <motion.span
                   className="inline-block"
                   style={{ color: C.headline }}
@@ -237,10 +316,9 @@ function Hero() {
               </span>
             </h1>
 
-            {/* Subtext */}
             <motion.p
-              className="text-[15px] sm:text-[17px] leading-relaxed mb-10"
-              style={{ color: C.body, maxWidth: "480px" }}
+              className="text-[14px] sm:text-[16px] leading-relaxed mb-9"
+              style={{ color: C.body, maxWidth: "400px" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
@@ -249,7 +327,6 @@ function Hero() {
               IA, software, o lo que haga falta.
             </motion.p>
 
-            {/* CTAs */}
             <motion.div
               className="flex flex-col sm:flex-row gap-3"
               initial={{ opacity: 0 }}
@@ -277,42 +354,99 @@ function Hero() {
             </motion.div>
           </div>
 
-          {/* ── Right: hero video — desktop only ───────────── */}
-          <motion.div
-            className="hidden lg:block shrink-0 lg:w-[380px] xl:w-[420px]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.4, delay: 0.7, ease: "easeOut" }}
-          >
-            <video
-              src="/hero.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full rounded-[4px] object-cover"
-            />
-          </motion.div>
-
         </div>
-      </motion.div>
 
-      {/* Scroll strip — bottom */}
-      <motion.div
-        className="max-w-7xl mx-auto w-full flex items-center justify-between pt-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.3, ease: "easeOut" }}
-      >
-        <p className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: C.muted }}>
-          Desplazar ———————
-        </p>
-        <p className="font-mono text-[10px] tracking-[0.15em]" style={{ color: C.muted }}>
-          01 / 06
-        </p>
-      </motion.div>
+        {/* Scroll strip — bottom bar */}
+        <motion.div
+          className="flex items-center justify-between px-5 sm:px-8 lg:px-14 shrink-0"
+          style={{ borderTop: `1px solid ${C.rule}`, height: "48px" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.3, ease: "easeOut" }}
+        >
+          <p className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: C.muted }}>
+            Desplazar ———————
+          </p>
+          <p className="font-mono text-[10px] tracking-[0.15em]" style={{ color: C.muted }}>
+            01 / 06
+          </p>
+        </motion.div>
+
+      </div>
     </section>
   );
+}
+
+// ── ScrollCanvas — responsive frame scrubber, cover-fit, driven by hero:scrub
+
+function ScrollCanvas({ totalFrames }: { totalFrames: number }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const framesRef = useRef<(HTMLImageElement | null)[]>([]);
+  const rafRef = useRef<number>(0);
+  const lastFrameRef = useRef(-1);
+  const sizeRef = useRef({ w: 1, h: 1 });
+
+  function draw(index: number) {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    const img = framesRef.current[Math.max(0, index)];
+    if (!canvas || !ctx || !img?.complete) return;
+    const { w, h } = sizeRef.current;
+    const iw = img.naturalWidth || 420;
+    const ih = img.naturalHeight || 420;
+    // object-fit: cover — center-crop to fill the canvas
+    const scale = Math.max(w / iw, h / ih);
+    const dw = iw * scale, dh = ih * scale;
+    ctx.clearRect(0, 0, w, h);
+    ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
+  }
+
+  // Track container size — updates canvas pixel dimensions on every resize
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ro = new ResizeObserver(entries => {
+      const { width, height } = entries[0].contentRect;
+      canvas.width = Math.round(width);
+      canvas.height = Math.round(height);
+      sizeRef.current = { w: canvas.width, h: canvas.height };
+      draw(Math.max(0, lastFrameRef.current));
+    });
+    ro.observe(canvas);
+    return () => ro.disconnect();
+  }, []);
+
+  // Preload all frames; draw frame 0 as soon as it's ready
+  useEffect(() => {
+    const images: (HTMLImageElement | null)[] = new Array(totalFrames).fill(null);
+    framesRef.current = images;
+    for (let i = 0; i < totalFrames; i++) {
+      const img = new Image();
+      img.src = `/frames/frame_${String(i + 1).padStart(4, "0")}.jpg`;
+      const idx = i;
+      img.onload = () => {
+        images[idx] = img;
+        if (idx === 0) draw(0);
+      };
+    }
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [totalFrames]);
+
+  // Advance frame in response to hero:scrub events (dispatched by Hero scroll capture)
+  useEffect(() => {
+    const onScrub = (e: Event) => {
+      const progress = (e as CustomEvent<number>).detail;
+      const frameIndex = Math.min(Math.floor(progress * totalFrames), totalFrames - 1);
+      if (frameIndex === lastFrameRef.current) return;
+      lastFrameRef.current = frameIndex;
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => draw(frameIndex));
+    };
+    window.addEventListener("hero:scrub", onScrub);
+    return () => window.removeEventListener("hero:scrub", onScrub);
+  }, [totalFrames]);
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" style={{ display: "block" }} />;
 }
 
 // ── Beliefs — Bento tiles ─────────────────────────────────────────────────
@@ -658,7 +792,7 @@ const footerCols = [
   },
   {
     label: "Redes",
-    items: [{ text: "LinkedIn →", href: "#" }, { text: "Are.na →", href: "#" }]
+    items: [{ text: "LinkedIn →", href: "#" }, { text: "Instagram →", href: "https://www.instagram.com/solvnt.ar?igsh=MTdrN2tvZnRuMmx2Yg%3D%3D&utm_source=qr" }]
   },
   {
     label: "Estudio",
@@ -769,11 +903,14 @@ export default function Home() {
     <div style={{ backgroundColor: C.bg }} className="min-h-screen overflow-x-hidden w-full">
       <Nav />
       <Hero />
-      <Beliefs />
-      <Servicios />
-      <Proceso />
-      <CTABand />
-      <Footer />
+      {/* Slides over the fixed hero */}
+      <div style={{ position: "relative", zIndex: 1, backgroundColor: C.bg }}>
+        <Beliefs />
+        <Servicios />
+        <Proceso />
+        <CTABand />
+        <Footer />
+      </div>
     </div>
   );
 }
